@@ -1,0 +1,52 @@
+# Hevy Analytics: the sync worker, the only process that talks to Hevy (and to OpenAI, if you install that key).
+# Example unit (docs/SELF-HOSTING.md). The keys are root-only files handed to this unit alone.
+[Unit]
+Description=Hevy Analytics sync worker
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=hevy-sync
+Group=hevy
+WorkingDirectory=/opt/hevy-analytics
+Environment=PYTHONUNBUFFERED=1
+Environment=PYTHONDONTWRITEBYTECODE=1
+Environment=HEVY_ENV=production
+Environment=HEVY_DATA_DIR=/var/lib/hevy-analytics
+Environment=HEVY_TIMEZONE=Europe/London
+LoadCredential=api-key:/etc/hevy-analytics/api-key
+# Optional: next-workout suggestions from the OpenAI API. An empty file means "not installed" (the file must exist).
+LoadCredential=openai-api-key:/etc/hevy-analytics/openai-api-key
+ExecStart=/opt/hevy-analytics/.venv/bin/python -m hevy.worker
+Restart=on-failure
+RestartSec=30
+TimeoutStopSec=120
+UMask=0007
+ReadWritePaths=/var/lib/hevy-analytics
+NoNewPrivileges=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectKernelLogs=true
+ProtectControlGroups=true
+ProtectClock=true
+ProtectHostname=true
+RestrictSUIDSGID=true
+RestrictNamespaces=true
+RestrictRealtime=true
+LockPersonality=true
+RemoveIPC=true
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+CapabilityBoundingSet=
+AmbientCapabilities=
+SystemCallArchitectures=native
+SystemCallFilter=@system-service
+MemoryMax=256M
+TasksMax=32
+
+[Install]
+WantedBy=multi-user.target

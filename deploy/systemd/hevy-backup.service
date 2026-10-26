@@ -1,0 +1,20 @@
+# Hevy Analytics: daily database backup (a consistent SQLite copy, integrity-checked; keeps the newest 30).
+[Unit]
+Description=Hevy Analytics database backup
+
+[Service]
+Type=oneshot
+User=hevy-sync
+Group=hevy
+WorkingDirectory=/opt/hevy-analytics
+Environment=PYTHONDONTWRITEBYTECODE=1
+Environment=HEVY_ENV=production
+Environment=HEVY_DATA_DIR=/var/lib/hevy-analytics
+ExecStart=/opt/hevy-analytics/.venv/bin/python -m hevy.cli backup --keep 30
+UMask=0007
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/hevy-analytics
+IPAddressDeny=any

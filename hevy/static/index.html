@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<meta name="csrf" content="{{CSRF}}">
+<meta name="base" content="{{BASE}}">
+<title>Training</title>
+<link rel="icon" href="{{BASE}}/static/icon.svg?v={{VERSION}}" type="image/svg+xml">
+<link rel="stylesheet" href="{{BASE}}/static/app.css?v={{VERSION}}">
+<link rel="stylesheet" href="{{BASE}}/static/home.css?v={{VERSION}}">
+<link rel="stylesheet" href="{{BASE}}/static/pages.css?v={{VERSION}}">
+<script type="module" src="{{BASE}}/static/app/main.js?v={{VERSION}}"></script>
+</head>
+<body>
+<header class="bar">
+  <a class="brand" href="{{BASE}}/" data-link><span class="mark" aria-hidden="true"></span>Training</a>
+  <nav aria-label="Sections"><a href="{{BASE}}/" data-link data-section="/">Home</a><a href="{{BASE}}/exercises" data-link data-section="/exercises">Exercises</a><a href="{{BASE}}/sessions" data-link data-section="/sessions">Sessions</a><a href="{{BASE}}/insights" data-link data-section="/insights">Insights</a><a href="{{BASE}}/wrapped" data-link data-section="/wrapped">Wrapped</a><a href="{{BASE}}/data" data-link data-section="/data">Data</a><a href="{{BASE}}/system" data-link data-section="/system">System</a>
+    <button type="button" id="search-open" class="search-btn" aria-label="Search (press /)">Search <kbd>/</kbd></button>
+    <a href="{{BASE}}/system" data-link id="sync" class="sync"></a></nav>
+</header>
+<main id="app" aria-live="polite"><p class="loading">Loading…</p></main>
+<footer class="foot"><span>/hevy v{{VERSION}}</span><a href="/logout">Sign out</a></footer>
+</body>
+</html>

@@ -1,0 +1,56 @@
+# Hevy Analytics: the web app. Example unit (docs/SELF-HOSTING.md); adjust paths, origin and time zone.
+[Unit]
+Description=Hevy Analytics web app on 127.0.0.1:8778
+After=network.target
+
+[Service]
+Type=simple
+User=hevy-web
+Group=hevy
+WorkingDirectory=/opt/hevy-analytics
+Environment=PYTHONUNBUFFERED=1
+Environment=PYTHONDONTWRITEBYTECODE=1
+Environment=HEVY_ENV=production
+Environment=HEVY_HOST=127.0.0.1
+Environment=HEVY_PORT=8778
+Environment=HEVY_DATA_DIR=/var/lib/hevy-analytics
+Environment=HEVY_PUBLIC_ORIGINS=https://training.example.com
+Environment=HEVY_TIMEZONE=Europe/London
+# The login is done by the reverse proxy in front (it sets X-Remote-User; see deploy/nginx/hevy.conf).
+Environment=HEVY_AUTH=proxy
+ExecStart=/opt/hevy-analytics/.venv/bin/python -m hevy.serve
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=20
+# The web app never sees the API keys and has no outbound network.
+InaccessiblePaths=-/etc/hevy-analytics
+IPAddressDeny=any
+IPAddressAllow=localhost
+UMask=0007
+ReadWritePaths=/var/lib/hevy-analytics
+NoNewPrivileges=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectKernelLogs=true
+ProtectControlGroups=true
+ProtectClock=true
+ProtectHostname=true
+RestrictSUIDSGID=true
+RestrictNamespaces=true
+RestrictRealtime=true
+LockPersonality=true
+RemoveIPC=true
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+CapabilityBoundingSet=
+AmbientCapabilities=
+SystemCallArchitectures=native
+SystemCallFilter=@system-service
+MemoryMax=256M
+TasksMax=32
+
+[Install]
+WantedBy=multi-user.target

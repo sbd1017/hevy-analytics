@@ -1,0 +1,15 @@
+# Data, secrets and local state never go in git.
+var/
+var-dev/
+*.sqlite3
+*.sqlite3-*
+*.db
+*.key
+api-key
+.env
+.env.*
+dumps/
+.venv/
+__pycache__/
+.pytest_cache/
+.DS_Store
