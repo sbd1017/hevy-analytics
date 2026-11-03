@@ -13,9 +13,11 @@ Not affiliated with Hevy. It uses Hevy's official API, which needs a Hevy Pro su
 ## What it does
 
 - **Homepage**: any period (7 days to all time, or drag across your whole history) compared with the one before:
-  sessions, time, working sets, volume and records, strength changes per exercise, a calendar and a muscle map.
-- **Muscle map**: front and back, coloured by credited sets a week, masculine or feminine, and drawn broader or slimmer
-  from your BMI if you add your height.
+  sessions, time, working sets, volume and records, strength changes per exercise, training-week streaks, a calendar,
+  a muscle map and your next workout.
+- **Muscle map**: an anatomical figure, front and back, coloured by credited sets a week. Choose a masculine or
+  feminine build; add your height and it is drawn broader or slimmer from your BMI (weight comes from your latest
+  Hevy body measurement).
 - **Exercises**: estimated 1RM over time, plateaus and momentum, records of every kind, and the chance of a new best
   next session (an empirical estimate, backtested on your own history, with its calibration shown).
 - **Insights**: a chain-linked Strength Index, Training DNA, muscle balance, and whether exercise order affects
@@ -24,7 +26,10 @@ Not affiliated with Hevy. It uses Hevy's official API, which needs a Hevy Pro su
   Liberty"), downloadable as an image.
 - **Next workout**: the next one or two workouts from your own Hevy routines, with targets for every set (see below).
 - **Data**: an explorer for every set, and exports to CSV, JSON and Excel.
-- **Sessions**: every workout, and side-by-side comparisons of two.
+- **Sessions**: every workout, similar past sessions, and side-by-side comparisons of two.
+- **Typo catcher**: sets far outside your normal for an exercise (say 12 kg × 120) are flagged and kept out of
+  volume, 1RM and records until you fix them in Hevy; the fix syncs back on its own.
+- **System**: sync health and recent syncs, your programme and next-workout settings, the body figure, and data notes.
 
 | | |
 |---|---|
@@ -85,6 +90,10 @@ Codex is meant for.
 - In production, the web app has no network access at all. Only the sync worker talks to Hevy, and to OpenAI if
   you enable the API option. Keys are read from files, never from settings or the environment.
 - The ChatGPT route opens two addresses to ChatGPT's servers, locked by a key of which only a hash is stored.
+- On a server it refuses to start without a login in front of it, and every change needs a CSRF token and a
+  same-origin request. The example units run the web app and the worker as separate, locked-down users.
+- Nightly backups, an integrity check, and a "would a rebuild give the same answer?" check (`hevy.cli verify`).
+- Dependencies are pinned and kept on patched releases (FastAPI 0.120.4, Starlette 0.49.3).
 
 ## Development
 
